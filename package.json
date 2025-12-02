@@ -1,0 +1,19 @@
+{
+    "name": "aoc2024",
+    "version": "1.0.0",
+    "description": "",
+    "author": "",
+    "license": "UNLICENSED",
+    "type": "module",
+    "dependencies": {
+        "@skyra/gifenc": "^1.0.1",
+        "canvas-constructor": "^7.0.2",
+        "omggif": "^1.0.10",
+        "pellicola": "^0.13.0",
+        "skia-canvas": "^2.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.7",
+        "assemblyscript": "^0.27.31"
+    }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="margin: 0">
+    <canvas></canvas>
+
+    <textarea type="text">L68
+L30
+R48
+L5
+R60
+L55
+L1
+L99
+R14
+L82</textarea>
+    <button>start</button>
+    <input type="range" min="1" max="1000" value="2" id="SPEED" width="1000px" />
+
+    <script type="text/javascript" src="viz1.js"></script>
+    <script>
+        let canvas = document.querySelector('canvas');
+
+        let ctxt = canvas.getContext('2d');
+
+                
+        let height = window.innerHeight;
+        let width = height*1.2;
+        canvas.width = width;
+        canvas.height = height;
+
+        document.querySelector('button').addEventListener('click', enterLoop);
+
+        document.querySelector('input').addEventListener('input', e => {
+            if(!curState) {
+                return;
+            }
+            setSpeed(curState);
+        })
+
+        function setSpeed(state) {
+            let val = Number(document.querySelector('input').value);
+
+            state.speed = val;
+        }
+
+        let curState = null;
+
+        function enterLoop() {
+            if(curState !== null) {
+                curState.running = false;
+            }
+
+            curState = {
+                frame: 0,
+                problemData: day1(getInput()),
+                speed: 0,
+                drawState: {},
+                running: true,
+                lastData: null
+            };
+            setSpeed(curState);
+            loop(curState);
+        }
+        function loop(state) {
+            if(!state.running) { return; }
+
+            if(!drawFrame(ctxt, width, height, state.speed, state.problemData, state.drawState)) {
+                state.running = false;
+                return;
+            }
+            ++state.frame;
+            
+            nextFrame();
+
+            function nextFrame() { window.requestAnimationFrame(loop.bind(null, state)); }
+        }
+
+
+        function getInputElem() {
+            return document.querySelector('textarea');
+        }
+        function getInput() {
+            return getInputElem().value;
+        }
+        
+
+
+    </script>
+</body>
+
+</html>
