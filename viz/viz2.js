@@ -1,7 +1,6 @@
-import { getAndSaveInput } from "./util/aoc.js";
-
 function day2(input) {
     let invalid = 0;
+    let ret = [];
     for(let range of input.split(',')) {
         let [l, r] = range.split('-').map(Number);
         
@@ -28,14 +27,66 @@ function day2(input) {
                     if(num >= l && num <= r && !seen.has(num)) {
                         seen.add(num);
                         invalid += num;
-                    } else if(num > r) { break; }
+                        ret.push([0, num]);
+                    } else {
+                        if(num > r) { break; }
+                        if(seen.has(num)) {
+                            ret.push([1, num]);
+                        } else {
+                            ret.push([2, num]);
+                        }
+                    }
                 }
                 
             }
         }
     }
     
-    return invalid;
+    return ret;
 }
 
-console.log(day2(await getAndSaveInput('2')));
+
+function drawFrame(outDiv, attemptDiv, speed, data, drawState) {
+    if(!drawState.initialized) {
+        drawState.initialized = true;
+        
+        drawState.idx = 0;
+        
+        drawState.dwellRemaining = 0;
+        
+        outDiv.innerHTML = '';
+    }
+    
+    if(drawState.dwellRemaining > 0) {
+        --drawState.dwellRemaining;
+        return true;
+    }
+    
+    let jump = speed;
+    for(let i = 0; i < jump; ++i) {
+        let [result, num] = data[drawState.idx++];
+        attemptDiv.innerHTML = num;
+        if(result === 0) {
+            outDiv.innerHTML = `${num}<br>${outDiv.innerHTML}`;
+            break;
+        }
+    }
+    
+    
+    
+        
+    
+    return drawState.idx < data.length;
+}
+
+
+
+
+
+
+
+
+
+
+
+
