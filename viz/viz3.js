@@ -54,7 +54,23 @@ function drawFrame(div1, div2, speed, data, drawState) {
         div1.innerHTML = '';
         div2.innerHTML = '';
         
+        drawState.dwellIdx = 0;
     }
+    
+    if(drawState.dwellIdx > 1) {
+        --drawState.dwellIdx;
+        return true;
+    }
+    if(speed < 15) {
+        if(drawState.dwellIdx !== 1) {
+            drawState.dwellIdx = 20 - speed;
+            return true;
+        } else {
+            drawState.dwellIdx = 0;
+        }
+    }
+    speed -= 15;
+    speed = Math.max(speed, 1);
     
     for(let i = 0; i < speed; ++i) {
         let next = data.next();
