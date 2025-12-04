@@ -10,11 +10,12 @@ function day3(input) {
             let digit = Number(line[i]);
             let remaining = (line.length) - i;
             
-            for(let j = Math.max(0, (12 - remaining)); j < stack.length; ++j) {
-                if(stack[j] < digit) {
-                    stack[j] = digit;
-                    stack = stack.slice(0, j+1)
-                    continue a;
+            let minLen = Math.max(0, (12 - remaining));
+            while(stack.length > minLen) {
+                if(stack.at(-1) < digit) {
+                    stack.pop();
+                } else {
+                    break;
                 }
             }
             
