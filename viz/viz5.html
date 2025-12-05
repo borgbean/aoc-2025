@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="margin: 0; overflow-y: scroll; overflow-x: scroll; white-space: nowrap;">
+    <textarea type="text">3-5
+10-14
+16-20
+12-18
+
+1
+5
+8
+11
+17
+32</textarea>
+    <button>start</button>
+    speed
+    <input type="range" min="1" max="13" value="1" id="SPEED" width="1000px" />
+    bigness
+    <input type="range" min="1" max="13" value="8" id="BIGNESS" width="1000px" />
+    
+    <div id="attempt" style="font-family:monospace;"></div>
+    ------------------
+    <div id="out" style="font-family:monospace;"></div>
+
+
+    <script type="text/javascript" src="viz5.js"></script>
+    <script>
+        let outDiv = document.querySelector('#out');
+        let attemptDiv = document.querySelector('#attempt');
+                
+        document.querySelector('button').addEventListener('click', enterLoop);
+
+        document.querySelector('#SPEED').addEventListener('input', e => {
+            if(!curState) {
+                return;
+            }
+            setSpeed(curState);
+        })
+
+        document.querySelector('#BIGNESS').addEventListener('input', e => {
+            if(!curState) {
+                return;
+            }
+            setBigness(curState);
+        })
+
+        function setSpeed(state) {
+            let val = Number(document.querySelector('#SPEED').value);
+
+            state.speed = val;
+        }
+        function setBigness(state) {
+            let val = Number(document.querySelector('#BIGNESS').value);
+
+            state.bigness = val;
+        }
+
+        let curState = null;
+
+        function enterLoop() {
+            if(curState !== null) {
+                curState.running = false;
+            }
+
+            curState = {
+                frame: 0,
+                problemData: day5(getInput()),
+                speed: 0,
+                bigness: 8,
+                drawState: {},
+                running: true,
+                lastData: null
+            };
+            setSpeed(curState);
+            setBigness(curState);
+            loop(curState);
+        }
+        function loop(state) {
+            if(!state.running) { return; }
+
+            if(!drawFrame(outDiv, attemptDiv, state.speed, state.problemData, state.drawState, state.bigness)) {
+                state.running = false;
+                return;
+            }
+            ++state.frame;
+            
+            nextFrame();
+
+            function nextFrame() { window.requestAnimationFrame(loop.bind(null, state)); }
+        }
+
+
+        function getInputElem() {
+            return document.querySelector('textarea');
+        }
+        function getInput() {
+            return getInputElem().value;
+        }
+        
+
+
+    </script>
+</body>
+
+</html>
