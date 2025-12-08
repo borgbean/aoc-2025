@@ -1,4 +1,3 @@
-import { MinPriorityQueue } from "@datastructures-js/priority-queue";
 import { getAndSaveInput } from "./util/aoc.js";
 import MinHeapMap from "./util/heap.js";
 
