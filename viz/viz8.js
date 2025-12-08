@@ -94,7 +94,7 @@ function * day8(input) {
  * @param {string} data 
  * @param {*} drawState 
  */
-function drawFrame(ctxt, width, height, speed, data, drawState) {
+function drawFrame(ctxt, width, height, speed, data, drawState, resultDiv) {
     if(!drawState.initialized) {
         drawState.initialized = true;
         drawState.dwellIdx = 0;
@@ -188,6 +188,7 @@ function drawFrame(ctxt, width, height, speed, data, drawState) {
             ctxt.closePath();
             ctxt.stroke(); // Render the path
         } else if(evt === RESULT) {
+            resultDiv.innerHTML = evtData;
             return false;
         }
     }
