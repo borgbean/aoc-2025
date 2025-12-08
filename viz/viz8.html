@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="margin: 0">
+
+    <textarea type="text">162,817,812
+57,618,57
+906,360,560
+592,479,940
+352,342,300
+466,668,158
+542,29,236
+431,825,988
+739,650,466
+52,470,668
+216,146,977
+819,987,18
+117,168,530
+805,96,715
+346,949,466
+970,615,88
+941,993,340
+862,61,35
+984,92,344
+425,690,689</textarea>
+    <button>start</button>
+    <input type="range" min="1" max="40" value="2" id="SPEED" width="1000px" />
+    <canvas></canvas>
+
+    <script type="text/javascript" src="viz8.js"></script>
+    <script>
+        let canvas = document.querySelector('canvas');
+
+        let ctxt = canvas.getContext('2d');
+
+                
+        let height = window.innerHeight;
+        
+        if(height > window.innerWidth) {
+            height = window.innerWidth;
+        }
+        let width = height;
+        
+        canvas.width = width;
+        canvas.height = height;
+
+        document.querySelector('button').addEventListener('click', enterLoop);
+
+        document.querySelector('input').addEventListener('input', e => {
+            if(!curState) {
+                return;
+            }
+            setSpeed(curState);
+        })
+
+        function setSpeed(state) {
+            let val = Number(document.querySelector('input').value);
+
+            state.speed = val;
+        }
+
+        let curState = null;
+
+        function enterLoop() {
+            if(curState !== null) {
+                curState.running = false;
+            }
+
+            curState = {
+                frame: 0,
+                problemData: day8(getInput()),
+                speed: 0,
+                drawState: {},
+                running: true,
+                lastData: null
+            };
+            setSpeed(curState);
+            loop(curState);
+        }
+        function loop(state) {
+            if(!state.running) { return; }
+
+            if(!drawFrame(ctxt, width, height, state.speed, state.problemData, state.drawState)) {
+                state.running = false;
+                return;
+            }
+            ++state.frame;
+            
+            nextFrame();
+
+            function nextFrame() { window.requestAnimationFrame(loop.bind(null, state)); }
+        }
+
+
+        function getInputElem() {
+            return document.querySelector('textarea');
+        }
+        function getInput() {
+            return getInputElem().value;
+        }
+        
+
+
+    </script>
+</body>
+
+</html>
