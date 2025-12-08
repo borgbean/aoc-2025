@@ -113,7 +113,7 @@ function drawFrame(div1, div2, speed, data, drawState) {
         
         let row1 = drawState.lastDp.map(x => `<td>${x}</td>`).join('')
         let row2 = drawState.dp.map(x => `<td>${x}</td>`).join('')
-        return `<table><tr>${row0}</tr><tr>${row1}</tr><tr>${row2}</tr></table>`
+        return `<table><tr>${row1}</tr><tr>${row0}</tr><tr>${row2}</tr></table>`
     }
     
     
